@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)file:///Users/julianpavetti/Documents/coding%20challenges/untitled%20folder/02a/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Pricing Assistant</title>
+</head>
+<body>
+  <h1>Product Pricing Assistant</h1>
+
+  <pre id="output">Product Pricing Summary
+-----------------------
+Product Name: Wireless Mouse
+Discounted Price (before tax): $16.99
+Final Price (with tax): $18.18
+Profit Per Unit: $5.68
+Break-Even Units: 212
+Is Profitable Per Unit?: true
+</pre>
+
+  <script>
+    // ✅ TEST: If you don't see this in the console, the script is not running.
+    console.log("✅ Script is running!");
+
+    // Step 1: Variables
+    var productName = "Wireless Mouse";
+    var costPerUnit = 12.50;
+    var basePrice = 19.99;
+    var discountRate = 0.15;
+    var salesTaxRate = 0.07;
+    var fixedMonthlyCosts = 1200;
+
+    // Step 2: Calculations
+    var discountedPrice = basePrice * (1 - discountRate);
+    var finalPriceWithTax = discountedPrice * (1 + salesTaxRate);
+    var profitPerUnit = finalPriceWithTax - costPerUnit;
+    var breakEvenUnits = Math.ceil(fixedMonthlyCosts / profitPerUnit);
+    var isProfitablePerUnit = profitPerUnit > 0;
+
+    // Build output text (for BOTH page + console)
+    var text =
+      "Product Pricing Summary\n" +
+      "-----------------------\n" +
+      "Product Name: " + productName + "\n" +
+      "Discounted Price (before tax): $" + discountedPrice.toFixed(2) + "\n" +
+      "Final Price (with tax): $" + finalPriceWithTax.toFixed(2) + "\n" +
+      "Profit Per Unit: $" + profitPerUnit.toFixed(2) + "\n" +
+      "Break-Even Units: " + breakEvenUnits + "\n" +
+      "Is Profitable Per Unit?: " + isProfitablePerUnit + "\n";
+
+    // Print to console
+    console.log(text);
+
+    // Print to the page
+    document.getElementById("output").textContent = text;
+  </script>
+
+
+</body></html>
