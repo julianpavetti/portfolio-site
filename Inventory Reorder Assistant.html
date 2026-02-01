@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)file:///Users/julianpavetti/Documents/coding%20challenges/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=// Inventory Reorder Assistant (JavaScript)
+
+// ✅ Step 1: Create and Initialize Variables
+const itemName = " usb-c="" cable";="" string="" const="" unitcost="3.25;" number="" currentstock="120;" reorderlevel="100;" targetstock="250;" weeklydemand="60;" supplierleadtimeweeks="2;" ✅="" step="" 2:="" calculate="" inventory="" metrics="" weeksofcover="weeklyDemand"> </head><body>0 ? currentStock / weeklyDemand : Infinity;
+
+const stockDeficit = Math.max(0, targetStock - currentStock);
+
+// Reorder rule: reorder if stock is at/below reorder level OR coverage is less than lead time
+const reorderNow =
+  currentStock &lt;= reorderLevel || weeksOfCover &lt; supplierLeadTimeWeeks;
+
+const reorderQuantity = reorderNow ? Math.ceil(stockDeficit) : 0;
+
+const estimatedReorderCost = reorderQuantity * unitCost;
+
+// ✅ Step 3: Print to Console
+console.log("=== Inventory Reorder Assistant ===");
+console.log("Item:", itemName);
+
+const coverDisplay =
+  weeksOfCover === Infinity ? "Infinity" : weeksOfCover.toFixed(2);
+
+console.log("Weeks of cover:", coverDisplay);
+console.log("Reorder now?:", reorderNow);
+console.log("Recommended reorder quantity:", reorderQuantity);
+console.log("Estimated Cost: $" + estimatedReorderCost.toFixed(2));
+, initial-scale=1.0"&gt;
+    <title>Document</title>
+
+
+    
+
+</body></html>
