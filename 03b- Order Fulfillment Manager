@@ -1,0 +1,164 @@
+/* =========================
+   Step 2: Model the Inventory
+   ========================= */
+
+let inventory = [
+  { sku: "SKU-001", name: "Eco Bottle", price: 19.99, stock: 42, discountRate: 0.0 },
+  { sku: "SKU-002", name: "Wireless Mouse", price: 24.5, stock: 8, discountRate: 0.10 },
+  { sku: "SKU-003", name: "Notebook", price: 4.99, stock: 3, discountRate: 0.0 },
+  { sku: "SKU-004", name: "USB-C Cable", price: 9.99, stock: 15, discountRate: 0.15 }
+];
+
+console.log("=== Inventory: Initial ===");
+inventory.forEach(p => {
+  console.log(`${p.sku} | ${p.name} | $${p.price.toFixed(2)} | Stock: ${p.stock}`);
+});
+
+/* =========================
+   Step 3: Manage Inventory Changes
+   ========================= */
+
+// Add a new product using .push()
+inventory.push({
+  sku: "SKU-005",
+  name: "Desk Lamp",
+  price: 29.99,
+  stock: 5,
+  discountRate: 0.05
+});
+console.log("\nAdded product: SKU-005 | Desk Lamp");
+
+// Remove the last product using .pop() and log removed item
+const removed = inventory.pop();
+console.log(`Removed last product: ${removed.sku} | ${removed.name}`);
+
+// Update price of one product (simulate sale)
+inventory[0].price = 16.99; // Eco Bottle sale price
+console.log(`\nSale price updated: ${inventory[0].sku} now $${inventory[0].price.toFixed(2)}`);
+
+// Update stock of another product (simulate restock)
+inventory[2].stock += 10; // Notebook restock
+console.log(`Restocked: ${inventory[2].sku} now Stock: ${inventory[2].stock}`);
+
+/* =========================
+   Stretch Goal: findProductBySku
+   ========================= */
+
+function findProductBySku(sku) {
+  const product = inventory.find(p => p.sku === sku);
+  return product || null;
+}
+
+/* =========================
+   Step 4: Create and Process Orders
+   ========================= */
+
+const orders = [
+  {
+    orderId: "ORD-1001",
+    items: [
+      { sku: "SKU-001", qty: 2 },
+      { sku: "SKU-003", qty: 4 }
+    ]
+  },
+  {
+    orderId: "ORD-1002",
+    items: [
+      { sku: "SKU-002", qty: 9 }, // intentionally too high (stock is 8)
+      { sku: "SKU-004", qty: 1 }
+    ]
+  }
+];
+
+// Helper: calculate item price after discount (stretch goal)
+function getFinalUnitPrice(product) {
+  const discount = product.discountRate || 0;
+  const finalPrice = product.price * (1 - discount);
+  return finalPrice;
+}
+
+function processOrder(order) {
+  // 1) Check stock for every line item before changing anything
+  for (const line of order.items) {
+    const product = findProductBySku(line.sku);
+
+    if (!product) {
+      return `Order ${order.orderId} FAILED: SKU not found (${line.sku}).`;
+    }
+
+    if (line.qty <= 0) {
+      return `Order ${order.orderId} FAILED: Invalid qty (${line.qty}) for ${line.sku}.`;
+    }
+
+    if (product.stock < line.qty) {
+      const shortBy = line.qty - product.stock;
+      return `Order ${order.orderId} FAILED: Not enough stock for ${product.sku} (${product.name}). Short by ${shortBy}.`;
+    }
+  }
+
+  // 2) If all items have sufficient stock, decrement stock and compute total
+  let total = 0;
+
+  for (const line of order.items) {
+    const product = findProductBySku(line.sku);
+
+    // decrement inventory
+    product.stock -= line.qty;
+
+    // compute line total (with optional discount)
+    const unitPrice = getFinalUnitPrice(product);
+    total += unitPrice * line.qty;
+  }
+
+  return `Order ${order.orderId} PROCESSED: Total = $${total.toFixed(2)}`;
+}
+
+console.log("\n=== Processing Orders ===");
+orders.forEach(order => {
+  console.log(processOrder(order));
+});
+
+/* =========================
+   Step 5: Reporting & Insights
+   ========================= */
+
+// Total inventory value = sum(price * stock)
+const totalInventoryValue = inventory.reduce((sum, p) => {
+  return sum + p.price * p.stock;
+}, 0);
+
+console.log(`\nTotal Inventory Value: $${totalInventoryValue.toFixed(2)}`);
+
+// Low-stock items (stock <= 5)
+const lowStockItems = inventory.filter(p => p.stock <= 5);
+
+console.log("\nLow-Stock Items (stock <= 5):");
+if (lowStockItems.length === 0) {
+  console.log("None");
+} else {
+  lowStockItems.forEach(p => {
+    console.log(`${p.sku} | ${p.name} | Stock: ${p.stock}`);
+  });
+}
+
+// Price list (array of "SKU — $Price")
+const priceList = inventory.map(p => `${p.sku} — $${p.price.toFixed(2)}`);
+
+console.log("\nPrice List:");
+console.log(priceList);
+
+/* =========================
+   Stretch Goal: Sort inventory by stock ascending
+   ========================= */
+
+const sortedByStock = [...inventory].sort((a, b) => a.stock - b.stock);
+
+console.log("\nInventory Sorted by Stock (ascending):");
+sortedByStock.forEach(p => {
+  console.log(`${p.sku} | ${p.name} | Stock: ${p.stock}`);
+});
+
+console.log("\n=== Inventory After Orders ===");
+inventory.forEach(p => {
+  console.log(`${p.sku} | ${p.name} | $${p.price.toFixed(2)} | Stock: ${p.stock}`);
+});
