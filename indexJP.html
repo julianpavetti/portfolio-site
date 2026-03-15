@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Feedback Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page" id="page">
+    <div class="container">
+      <h1>Customer Feedback Form</h1>
+      <p class="intro">Please share your feedback below.</p>
+
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            data-tooltip="Enter your full name."
+            placeholder="Your name"
+          />
+          <small class="error" id="name-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            data-tooltip="Enter a valid email address."
+            placeholder="you@example.com"
+          />
+          <small class="error" id="email-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="comments">Comments</label>
+          <textarea
+            id="comments"
+            name="comments"
+            rows="5"
+            data-tooltip="Type your feedback here."
+            placeholder="Write your comments..."
+          ></textarea>
+          <div class="comment-meta">
+            <small id="char-count">0 characters</small>
+          </div>
+          <small class="error" id="comments-error"></small>
+        </div>
+
+        <button type="submit" id="submit-btn">Submit Feedback</button>
+      </form>
+
+      <div id="tooltip" class="tooltip hidden"></div>
+
+      <section class="feedback-section">
+        <h2>Submitted Feedback</h2>
+        <div id="feedback-display"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="cp_1.js"></script>
+</body>
+</html>
